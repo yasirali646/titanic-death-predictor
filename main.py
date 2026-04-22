@@ -1,11 +1,13 @@
 import numpy as np
 import pickle
 import streamlit as st
+import os
 
 # Load model once at startup
 @st.cache_resource
 def load_model():
-    return pickle.load(open('pipe.pkl', 'rb'))
+    model_path = os.path.join(os.path.dirname(__file__), 'pipe.pkl')
+    return pickle.load(open(model_path, 'rb'))
 
 pipe = load_model()
 
