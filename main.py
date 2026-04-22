@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import pickle
 import streamlit as st
 import os
@@ -27,7 +28,15 @@ with col2:
     embark = st.selectbox("Select the embark port", ["S", "C", "Q"])
 
 if st.button("Predict", type="primary"):
-    test_input = np.array([pclass, gender, age, sbs, chpr, fare, embark], dtype=object).reshape(1, 7)
+    test_input = pd.DataFrame({
+        'Pclass': [pclass],
+        'Sex': [gender.lower()],
+        'Age': [age],
+        'SibSp': [sbs],
+        'Parch': [chpr],
+        'Fare': [fare],
+        'Embarked': [embark]
+    })
     prediction = pipe.predict(test_input)[0]
     result = "Not Survived" if prediction == 0 else "Survived"
     st.success(f"Prediction: **{result}**")
